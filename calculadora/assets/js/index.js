@@ -5,8 +5,8 @@ function criaCalculadora() {
 
         inicia() {
             this.cliqueBotoes();
-            this.pressionaEnter();
-            this.permiteApenasNumeros(); // adiciona restrição de teclado
+            this.pressionaEnter(); 
+            this.permiteApenasNumeros(); 
         },
 
         pressionaEnter() {
@@ -19,10 +19,20 @@ function criaCalculadora() {
 
         permiteApenasNumeros() {
             this.display.addEventListener('keydown', e => {
-                const permitidos = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                    '+', '-', '*', '/', '.', 'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Enter'];
+                const permitidos = [
+                    '0','1','2','3','4','5','6','7','8','9',
+                    '+','-','*','/','.','Backspace','Delete','ArrowLeft','ArrowRight','Enter'
+                ];
+
                 if (!permitidos.includes(e.key)) {
-                    e.preventDefault(); // bloqueia tecla não permitida
+                    e.preventDefault();
+                }
+            });
+
+            this.display.addEventListener('paste', e => {
+                const texto = e.clipboardData.getData('text');
+                if (/[^0-9+\-*/.]/.test(texto)) {
+                    e.preventDefault();
                 }
             });
         },
