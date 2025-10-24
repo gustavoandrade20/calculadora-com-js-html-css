@@ -5,8 +5,8 @@ function criaCalculadora() {
 
         inicia() {
             this.cliqueBotoes();
-            this.pressionaEnter(); 
-            this.permiteApenasNumeros(); 
+            this.pressionaEnter();
+            this.permiteApenasNumeros();
         },
 
         pressionaEnter() {
@@ -20,20 +20,18 @@ function criaCalculadora() {
         permiteApenasNumeros() {
             this.display.addEventListener('keydown', e => {
                 const permitidos = [
-                    '0','1','2','3','4','5','6','7','8','9',
-                    '+','-','*','/','.','Backspace','Delete','ArrowLeft','ArrowRight','Enter'
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                    '+', '-', '*', '/', '.', 'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Enter'
                 ];
-
                 if (!permitidos.includes(e.key)) {
                     e.preventDefault();
                 }
             });
 
+            // Impede colar letras no campo
             this.display.addEventListener('paste', e => {
                 const texto = e.clipboardData.getData('text');
-                if (/[^0-9+\-*/.]/.test(texto)) {
-                    e.preventDefault();
-                }
+                if (/[^0-9+\-*/.]/.test(texto)) e.preventDefault();
             });
         },
 
@@ -45,7 +43,6 @@ function criaCalculadora() {
                     alert('Conta inválida');
                     return;
                 }
-
                 this.display.value = String(conta);
             } catch (e) {
                 alert('Conta inválida');
@@ -62,7 +59,7 @@ function criaCalculadora() {
         },
 
         cliqueBotoes() {
-            document.addEventListener('click', (e) => {
+            document.addEventListener('click', e => {
                 const el = e.target;
 
                 if (el.classList.contains('btn-num')) {
@@ -81,6 +78,8 @@ function criaCalculadora() {
                     this.realizaConta();
                 }
 
+                // 👇 No PC: mantém foco para usar o teclado
+                // 👇 No celular: não foca (para não abrir o teclado virtual)
                 if (!/Mobi|Android/i.test(navigator.userAgent)) {
                     this.display.focus();
                 }
