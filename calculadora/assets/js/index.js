@@ -5,7 +5,7 @@ function criaCalculadora() {
 
         inicia() {
             this.cliqueBotoes();
-            this.pressionaEnter(); 
+            this.pressionaEnter();
             this.permiteApenasNumeros(); // adiciona restrição de teclado
         },
 
@@ -19,8 +19,8 @@ function criaCalculadora() {
 
         permiteApenasNumeros() {
             this.display.addEventListener('keydown', e => {
-                const permitidos = ['0','1','2','3','4','5','6','7','8','9',
-                                    '+','-','*','/','.','Backspace','Delete','ArrowLeft','ArrowRight','Enter'];
+                const permitidos = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                    '+', '-', '*', '/', '.', 'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Enter'];
                 if (!permitidos.includes(e.key)) {
                     e.preventDefault(); // bloqueia tecla não permitida
                 }
@@ -28,9 +28,9 @@ function criaCalculadora() {
         },
 
         realizaConta() {
-            let conta = this.display.value; 
+            let conta = this.display.value;
             try {
-                conta = eval(conta); 
+                conta = eval(conta);
                 if (conta === '' || Number.isNaN(conta) || typeof conta !== 'number') {
                     alert('Conta inválida');
                     return;
@@ -53,7 +53,7 @@ function criaCalculadora() {
 
         cliqueBotoes() {
             document.addEventListener('click', (e) => {
-                const el = e.target; 
+                const el = e.target;
 
                 if (el.classList.contains('btn-num')) {
                     this.btnParaDisplay(el.innerText);
@@ -71,7 +71,9 @@ function criaCalculadora() {
                     this.realizaConta();
                 }
 
-                this.display.focus();
+                if (!/Mobi|Android/i.test(navigator.userAgent)) {
+                    this.display.focus();
+                }
             });
         },
 
