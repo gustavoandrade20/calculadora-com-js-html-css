@@ -4,9 +4,22 @@ function criaCalculadora() {
         btnClear: document.querySelector('.btn-clear'),
 
         inicia() {
+            this.ajustaModoInput();
             this.cliqueBotoes();
             this.pressionaEnter();
             this.permiteApenasNumeros();
+        },
+
+        ajustaModoInput() {
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                this.display.setAttribute('readonly', true);
+                this.display.setAttribute('inputmode', 'none');
+            } else {
+                this.display.removeAttribute('readonly');
+                this.display.removeAttribute('inputmode');
+            }
         },
 
         pressionaEnter() {
@@ -28,7 +41,6 @@ function criaCalculadora() {
                 }
             });
 
-            // Impede colar letras no campo
             this.display.addEventListener('paste', e => {
                 const texto = e.clipboardData.getData('text');
                 if (/[^0-9+\-*/.]/.test(texto)) e.preventDefault();
@@ -78,8 +90,6 @@ function criaCalculadora() {
                     this.realizaConta();
                 }
 
-                // 👇 No PC: mantém foco para usar o teclado
-                // 👇 No celular: não foca (para não abrir o teclado virtual)
                 if (!/Mobi|Android/i.test(navigator.userAgent)) {
                     this.display.focus();
                 }
